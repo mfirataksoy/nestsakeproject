@@ -19,7 +19,8 @@ export class Family {
   @Type(() => Post)
   posts: Post[];
 
-  @Prop({ type: [String] })
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }] })
+  @Type(() => User)
   members: string[];
 
   @Prop({ type: String, select: false })

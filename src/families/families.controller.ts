@@ -24,9 +24,11 @@ export class FamiliesController {
     @Body() createFamilyDto: CreateFamilyDto,
     @Req() req: Request & { user: any },
   ) {
+    console.log(req);
     return this.familiesService.create({
       ...createFamilyDto,
       adminUser: req.user._id,
+      members: [req.user._id],
     });
   }
 

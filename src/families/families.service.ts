@@ -42,6 +42,8 @@ export class FamiliesService {
           $in: [userId],
         },
       })
+      .populate('adminUser')
+      .populate('members')
       .select('+code');
 
     return families;
@@ -74,7 +76,7 @@ export class FamiliesService {
   }
 
   async findOne(id: any) {
-    const family = await this.familyModel.findById(id);
+    const family = await this.familyModel.findById(id).populate('members');
     return family;
   }
 
