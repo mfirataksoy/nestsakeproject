@@ -15,6 +15,7 @@ import { PostsService } from './posts.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { FindFamilyDTO } from './dto/find-family.dto';
 
 @Controller('posts')
 export class PostsController {
@@ -31,9 +32,16 @@ export class PostsController {
     return this.postsService.create({
       ...createPostDto,
       userId: req.user._id,
-      familyId: req?.user?.familyId,
-      text: '',
+      date: new Date(Date.now()),
+      postedBy: req.user._id,
     });
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Post('/feed')
+  findAllFamilyPosts(@Body() findFamilyDTO: FindFamilyDTO) {
+    console.log(findFamilyDTO);
+    return this.postsService.findAllFamilyPosts(findFamilyDTO);
   }
 
   @Delete(':id')
@@ -83,4 +91,10 @@ export class PostsController {
   findAllPosts() {
     return this.postsService.findAll();
   }
+
+  // @UseGuards(AuthGuard('jwt'))
+  // @Get('my-families/:id')
+  // findFamilyPosts() {
+  //   return this.postsService.findFamilyPosts();
+  // }
 }

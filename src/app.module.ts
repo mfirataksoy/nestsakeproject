@@ -8,6 +8,7 @@ import { ConfigModule } from './config';
 import { DBConfig } from './config/config.schema';
 import { PostsModule } from './posts/posts.module';
 import { FamiliesModule } from './families/families.module';
+import { FileModule } from './file/file.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { FamiliesModule } from './families/families.module';
     AuthModule,
     PostsModule,
     FamiliesModule,
+    FileModule,
   ],
   controllers: [AppController],
   providers: [AppService],

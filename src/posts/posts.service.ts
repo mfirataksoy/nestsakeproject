@@ -4,6 +4,8 @@ import { Model } from 'mongoose';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { Comment } from './entities/comment.entity';
 import { Post } from './entities/post.entity';
+import { FindFamilyDTO } from './dto/find-family.dto';
+import { CreatePostDto } from './dto/create-post.dto';
 
 @Injectable()
 export class PostsService {
@@ -13,16 +15,16 @@ export class PostsService {
   @InjectModel(Comment.name)
   private readonly commentModel: Model<Comment>;
 
-  create(createPostDto: {
-    audioUrl: string;
-    text: string;
-    date: Date;
-    userId: string;
-    familyId: string;
-  }) {
+  create(
+    createPostDto: CreatePostDto & {
+      postedBy: string;
+      date: Date;
+      userId: string;
+    },
+  ) {
     return this.postModel.create({
       ...createPostDto,
-      postedBy: createPostDto.userId,
+      postedBy: createPostDto.postedBy,
     });
   }
 
@@ -63,5 +65,13 @@ export class PostsService {
 
   remove(id: number) {
     return `This action removes a #${id} post`;
+  }
+
+  findAllFamilyPosts(findFamilyDTO: FindFamilyDTO) {
+    return this.postModel
+      .find({ familyId: { $in: findFamilyDTO.familyIds } })
+      .populate('postedBy')
+      .skip(findFamilyDTO.skip)
+      .limit(findFamilyDTO.limit);
   }
 }
