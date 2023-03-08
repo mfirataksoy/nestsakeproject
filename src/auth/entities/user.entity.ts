@@ -7,7 +7,6 @@ export type UserDocument = User & Document;
 
 @Schema({ timestamps: true })
 export class User {
-
   @Prop({ type: String })
   firstName: string;
 
@@ -26,10 +25,9 @@ export class User {
   @Prop({ type: Number })
   phoneNumber: number;
 
-  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: Family.name }] })
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Family' }] })
   @Type(() => Family)
   familyId: Family[];
-  
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
