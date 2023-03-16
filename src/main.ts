@@ -1,13 +1,18 @@
 import { NestFactory } from '@nestjs/core';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { config } from 'aws-sdk';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // enable cors for nestjs
-  app.enableCors();
+  // Custom CORS configuration
+  app.enableCors({
+    origin: '*', // Replace '*' with your frontend domain or an array of domains allowed
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    allowedHeaders: 'Content-Type, Accept, Authorization',
+    credentials: true,
+  });
 
   const documentConfig = new DocumentBuilder()
     .setTitle('API Docs')
