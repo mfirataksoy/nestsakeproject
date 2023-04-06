@@ -81,6 +81,6 @@ export class FamiliesController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.familiesService.remove(+id);
+    return this.familiesService.remove(id);
   }
 }

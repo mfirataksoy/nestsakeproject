@@ -84,7 +84,9 @@ export class FamiliesService {
     return `This action updates a #${id} family`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} family`;
+  async remove(id: string) {
+    console.log(id);
+    const family = await this.familyModel.findByIdAndDelete(id);
+    return family;
   }
 }
