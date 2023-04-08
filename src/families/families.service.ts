@@ -89,4 +89,34 @@ export class FamiliesService {
     const family = await this.familyModel.findByIdAndDelete(id);
     return family;
   }
+
+  async closeFamily(id: string) {
+    try {
+      const family = await this.familyModel.findOneAndUpdate(
+        { _id: id },
+        {
+          isAvailibleForNewMembers: false,
+        },
+      );
+      return family;
+    } catch (error) {
+      console.error(error);
+      throw new Error('Error closing family');
+    }
+  }
+
+  async openFamily(id: string) {
+    try {
+      const family = await this.familyModel.findOneAndUpdate(
+        { _id: id },
+        {
+          isAvailibleForNewMembers: true,
+        },
+      );
+      return family;
+    } catch (error) {
+      console.error(error);
+      throw new Error('Error opening family');
+    }
+  }
 }

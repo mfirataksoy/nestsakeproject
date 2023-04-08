@@ -83,4 +83,14 @@ export class FamiliesController {
   remove(@Param('id') id: string) {
     return this.familiesService.remove(id);
   }
+
+  @Get('close-family/:id')
+  async closeFamily(@Param('id') id: string) {
+    return this.familiesService.closeFamily(id);
+  }
+
+  @Get('open-family/:id')
+  async openFamily(@Param('id') id: string) {
+    return this.familiesService.openFamily(id);
+  }
 }
