@@ -75,8 +75,9 @@ export class FamiliesController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateFamilyDto: UpdateFamilyDto) {
-    return this.familiesService.update(+id, updateFamilyDto);
+  update(@Param('id') id: number, @Body() updateFamilyDto: UpdateFamilyDto) {
+    const stringid = id.toString();
+    return this.familiesService.update(stringid, updateFamilyDto);
   }
 
   @Delete(':id')

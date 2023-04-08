@@ -6,6 +6,7 @@ import { UpdateFamilyDto } from './dto/update-family.dto';
 import { Family } from './entities/family.entity';
 import mongoose from 'mongoose';
 import { uuid } from 'uuidv4';
+import { NotFoundException } from '@nestjs/common';
 
 @Injectable()
 export class FamiliesService {
@@ -80,8 +81,18 @@ export class FamiliesService {
     return family;
   }
 
-  update(id: number, updateFamilyDto: UpdateFamilyDto) {
-    return `This action updates a #${id} family`;
+  async update(id: string, updateFamilyDto: UpdateFamilyDto) {
+    try {
+      const family = await this.familyModel.findByIdAndUpdate(id, updateFamilyDto, { new: true });
+  
+      if (!family) {
+        throw new NotFoundException(`Family with ID "${id}" not found.`);
+      }
+  
+      return family;
+    } catch (error) {
+      throw new NotFoundException(`Family with ID "${id}" not found.`);
+    }
   }
 
   async remove(id: string) {
