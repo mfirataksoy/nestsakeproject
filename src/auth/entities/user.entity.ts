@@ -28,6 +28,12 @@ export class User {
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Family' }] })
   @Type(() => Family)
   familyId: Family[];
+
+  @Prop({ type: Number, default: 0 })
+  postsCount: number;
+
+  @Prop({ type: Number, default: 0 })
+  familyCreatedCount: number;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

@@ -136,7 +136,33 @@ export class AuthService {
     }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
+  async increaseFamilyCount(id: string) {
+    try {
+      const user = await this.userModel.findById(id);
+      if (!user) {
+        throw new Error(`User with ID ${id} not found`);
+      }
+      user.familyCreatedCount = user.familyCreatedCount + 1;
+      await user.save();
+      return user;
+    } catch (err) {
+      console.error(`Error increasing family count for user ${id}: ${err.message}`);
+      throw err;
+    }
+  }
+
+  async increasePostCount(id: string) {
+    try {
+      const user = await this.userModel.findById(id);
+      if (!user) {
+        throw new Error(`User with ID ${id} not found`);
+      }
+      user.postsCount = user.postsCount + 1;
+      await user.save();
+      return user;
+    } catch (err) {
+      console.error(`Error increasing family count for user ${id}: ${err.message}`);
+      throw err;
+    }
   }
 }
