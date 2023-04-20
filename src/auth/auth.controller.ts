@@ -64,6 +64,15 @@ export class AuthController {
     return this.authService.updateDetails(req);
   }
 
+  @Get('increasePostCount/:id')
+  async increasePostCount(@Param('id') id: string) {
+    return this.authService.increasePostCount(id);
+  }
+
+  @Get('increaseFamilyCount/:id')
+  async increaseFamilyCount(@Param('id') id: string) {
+    return this.authService.increaseFamilyCount(id);
+  }
   /*  
   // TODO: add missing cruds Havent used thsese yet
   @Get(':id')

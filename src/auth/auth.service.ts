@@ -142,27 +142,43 @@ export class AuthService {
       if (!user) {
         throw new Error(`User with ID ${id} not found`);
       }
+      if (user.familyCreatedCount == 1) {
+        throw new Error(`You reached maximum! PAY US MONEY!`);
+      }
       user.familyCreatedCount = user.familyCreatedCount + 1;
       await user.save();
       return user;
     } catch (err) {
-      console.error(`Error increasing family count for user ${id}: ${err.message}`);
+      console.error(`${err.message}`);
       throw err;
     }
   }
 
+
+  // ...
+  
   async increasePostCount(id: string) {
     try {
       const user = await this.userModel.findById(id);
       if (!user) {
-        throw new Error(`User with ID ${id} not found`);
+        throw new HttpException(
+          `User with ID ${id} not found`,
+          HttpStatus.NOT_FOUND,
+        );
+      }
+      if (user.postsCount >= 20) {
+        throw new HttpException(
+          `You reached the maximum amount of posts you can make. Please upgrade your account to keep posting.`,
+          HttpStatus.BAD_REQUEST,
+        );
       }
       user.postsCount = user.postsCount + 1;
       await user.save();
       return user;
     } catch (err) {
-      console.error(`Error increasing family count for user ${id}: ${err.message}`);
+      console.error(`${err.message}`);
       throw err;
     }
   }
+  
 }
