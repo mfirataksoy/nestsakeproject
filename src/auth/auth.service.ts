@@ -160,13 +160,8 @@ export class AuthService {
   async increasePostCount(id: string) {
     try {
       const user = await this.userModel.findById(id);
-      if (!user) {
-        throw new HttpException(
-          `User with ID ${id} not found`,
-          HttpStatus.NOT_FOUND,
-        );
-      }
-      if (user.postsCount >= 20) {
+
+      if (user.postsCount >= 25) {
         throw new HttpException(
           `You reached the maximum amount of posts you can make. Please upgrade your account to keep posting.`,
           HttpStatus.BAD_REQUEST,
@@ -174,11 +169,11 @@ export class AuthService {
       }
       user.postsCount = user.postsCount + 1;
       await user.save();
+      console.log(user);
       return user;
     } catch (err) {
       console.error(`${err.message}`);
       throw err;
     }
   }
-  
 }
